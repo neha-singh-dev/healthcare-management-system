@@ -1,219 +1,304 @@
-# Healthcare Backend Assignment
+# 🏥 Healthcare Management System
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue)
-![Django](https://img.shields.io/badge/Django-6.0.2-green)
-![License](https://img.shields.io/badge/License-MIT-blue)
+![Python](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python)
+![Django](https://img.shields.io/badge/Django-5.x-green?style=for-the-badge&logo=django)
+![DRF](https://img.shields.io/badge/Django_REST_Framework-red?style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=for-the-badge&logo=postgresql)
+![JWT](https://img.shields.io/badge/JWT-Authentication-orange?style=for-the-badge)
 
-A Django REST Framework backend for a healthcare system built as part of my internship assignment.
+A secure backend application built with **Django REST Framework** for managing patients, doctors, and their relationships through RESTful APIs.
 
----
-
-## Tech Stack
-- Python 3.8+
-- Django
-- Django REST Framework
-- JWT Authentication (Simple JWT)
-- PostgreSQL
+The project demonstrates backend engineering concepts including authentication, relational database design, modular architecture, CRUD operations, and API development.
 
 ---
 
-## Project Structure
+# ✨ Features
+
+- 🔐 JWT Authentication
+- 👨‍⚕️ Doctor Management
+- 🧑 Patient Management
+- 🔗 Patient–Doctor Mapping
+- ⚡ RESTful APIs
+- 🗄 PostgreSQL Integration
+- 📦 Modular Django Apps
+- 🔄 Full CRUD Operations
+
+---
+
+# 🏗 Architecture
+
 ```
+                   JWT Authentication
+                           │
+                           ▼
+                  Django REST Framework
+                           │
+         ┌─────────────────┼─────────────────┐
+         ▼                 ▼                 ▼
+    Patients           Doctors          Mappings
+                           │
+                           ▼
+                     PostgreSQL
+```
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Language | Python 3 |
+| Framework | Django |
+| API | Django REST Framework |
+| Authentication | JWT (Simple JWT) |
+| Database | PostgreSQL |
+| Version Control | Git |
+
+---
+
+# 📂 Project Structure
+
+```text
 healthcare_backend/
-│
-├── patients/        # Patient model and APIs  
-├── doctors/         # Doctor model and APIs  
-├── mappings/        # Patient-Doctor mapping  
-├── healthcare/      # Main project settings   
-└── manage.py  
-```
----
-## Setup & Run
 
-### 1. Clone the repository
+├── patients/          # Patient APIs & Models
+├── doctors/           # Doctor APIs & Models
+├── mappings/          # Patient–Doctor Relationships
+├── healthcare/        # Project Configuration
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+# 🚀 Getting Started
+
+## 1. Clone Repository
+
 ```bash
 git clone https://github.com/neha-singh-dev/healthcare-backend-assignment.git
 cd healthcare-backend-assignment
 ```
-### 2. Create and activate virtual environment
+
+---
+
+## 2. Create Virtual Environment
+
 ```bash
 python -m venv venv
-venv\Scripts\activate   # Windows
 ```
-### 3. Install dependencies
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
-### 4. Configure PostgreSQL
 
-- Make sure PostgreSQL is installed
-- Create a database, e.g. healthcare_db
-```bassh
+---
+
+## 4. Configure PostgreSQL
+
+Create a PostgreSQL database.
+
+```bash
 createdb healthcare_db
 ```
-- Update settings.py DATABASES section:
+
+Update your `settings.py`
+
 ```python
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'healthcare_db',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "healthcare_db",
+        "USER": "your_username",
+        "PASSWORD": "your_password",
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
 ```
-### 5. Apply migrations
+
+---
+
+## 5. Apply Migrations
+
 ```bash
 python manage.py migrate
 ```
-###  5.Create Superuser(optional, for testing JWT-protected endpoints)
+
+---
+
+## 6. Create Superuser (Optional)
+
 ```bash
 python manage.py createsuperuser
 ```
-### 6. Run the server
+
+---
+
+## 7. Run Development Server
+
 ```bash
 python manage.py runserver
 ```
-Server will start at:
+
+Server runs at
+
 ```
 http://127.0.0.1:8000/
 ```
----
-
-### Authentication (JWT)
-
-This project uses JSON Web Tokens (JWT) for securing API endpoints.
-
-### Get Token Pair (Login)
-
-POST `/api/auth/login/`
-
-Example request body:
-```json
-{
-  "username": "your_username",
-  "password": "your_password"
-}
-```
-Example response:
-```json
-{
-  "refresh": "<JWT_REFRESH_TOKEN>",
-  "access": "<JWT_ACCESS_TOKEN>"
-}
-```
-
-
-
-### Use JWT Access Token
-
-For all protected endpoints, include this header:
-```
-Authorization: Bearer <JWT_ACCESS_TOKEN>
-```
----
-
-### API Endpoints & Example Payloads
-
-### Patient
-
-- GET `/api/patients/`
-- POST `/api/patients/`
-
-Example POST request:
-```json
-{
-  "name": "John Doe",
-  "age": 35,
-  "medical_history": "Lung Cancer"
-}
-```
-Response:
-```json
-{
-  "id": 1,
-  "name": "John Doe",
-  "age": 35,
-"medical_history": "Lung Cancer"
-}
-```
-- GET/PUT/DELETE `/api/patients/<id>/`
 
 ---
 
-### Doctor
+# 🔐 Authentication
 
-- GET `/api/doctors/`
-- POST `/api/doctors/`
+This project uses **JSON Web Token (JWT)** authentication.
 
-Example POST request:
+### Login
+
+**POST**
+
+```
+/api/auth/login/
+```
+
+Request
+
 ```json
 {
-  "name": "Dr. Smith",
-  "specialization": "Cardiology",
-  "email": "drsmith@example.com",
-  "experience_years": 7
+    "username": "your_username",
+    "password": "your_password"
 }
 ```
-Response:
+
+Response
+
 ```json
 {
-  "id": 1,
-  "name": "Dr. Smith",
-  "specialization": "Cardiology",
-  "email": "drsmith@example.com",
-  "experience_years": 7
+    "refresh": "<JWT_REFRESH_TOKEN>",
+    "access": "<JWT_ACCESS_TOKEN>"
 }
 ```
-- GET/PUT/DELETE `/api/doctors/<id>/`
+
+For protected endpoints include
+
+```
+Authorization: Bearer <ACCESS_TOKEN>
+```
 
 ---
 
-### Patient-Doctor Mapping
+# 📡 API Endpoints
 
-- GET `/api/mappings/`
-- POST `/api/mappings/`
-
-Example POST request:
-```json
-{
-  "patient": 1,
-  "doctor": 1,
-}
-```
-Response:
-```json
-{
-  "id": 1,
-  "patient": 1,
-  "doctor": 1,
-}
-```
-- GET/PUT/DELETE `/api/mappings/<id>/`
+| Resource | Endpoints |
+|-----------|-----------|
+| Patient | GET, POST `/api/patients/` |
+| Patient | GET, PUT, DELETE `/api/patients/<id>/` |
+| Doctor | GET, POST `/api/doctors/` |
+| Doctor | GET, PUT, DELETE `/api/doctors/<id>/` |
+| Mapping | GET, POST `/api/mappings/` |
+| Mapping | GET, PUT, DELETE `/api/mappings/<id>/` |
 
 ---
 
-### Features
+# 📝 Example Requests
 
-- Full CRUD for Patient, Doctor, and Mapping models
+## Create Patient
 
-- Foreign key relationship between Patient and Doctor
+```json
+{
+    "name": "John Doe",
+    "age": 35,
+    "medical_history": "Lung Cancer"
+}
+```
 
-- JWT-based authentication
+Response
 
-- Clean REST API structure
-
-## Future Improvements
-- Add role-based access control (Admin, Doctor)
-- Add pagination for large datasets
-- Add unit tests
-- Deploy to cloud (Render / Railway / AWS)
+```json
+{
+    "id": 1,
+    "name": "John Doe",
+    "age": 35,
+    "medical_history": "Lung Cancer"
+}
+```
 
 ---
 
+## Create Doctor
 
+```json
+{
+    "name": "Dr. Smith",
+    "specialization": "Cardiology",
+    "email": "drsmith@example.com",
+    "experience_years": 7
+}
+```
 
+---
 
+## Create Mapping
 
+```json
+{
+    "patient": 1,
+    "doctor": 1
+}
+```
+
+---
+
+# 💡 Skills Demonstrated
+
+- Backend Development
+- Django REST Framework
+- REST API Design
+- JWT Authentication
+- PostgreSQL Integration
+- Database Relationships
+- CRUD Operations
+- Modular Django Architecture
+
+---
+
+# 🔮 Future Improvements
+
+- 👥 Role-Based Access Control (RBAC)
+- 📅 Appointment Scheduling
+- 📄 Medical Records Module
+- 📑 Swagger / OpenAPI Documentation
+- 🐳 Docker Support
+- ✅ Unit & Integration Testing
+- ☁️ Cloud Deployment (Render / Railway / AWS)
+
+---
+
+# 👩‍💻 Author
+
+**Neha Singh**
+
+Backend Developer • Python • Django • REST APIs
+
+GitHub: https://github.com/neha-singh-dev
+
+---
+
+⭐ If you found this project interesting, consider giving it a star!
